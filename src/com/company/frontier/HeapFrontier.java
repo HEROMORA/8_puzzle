@@ -13,16 +13,16 @@ public class HeapFrontier<T> implements Frontier<T> {
 
     @Override
     public void add(T obj) {
-
+        heap.add(obj);
     }
 
     @Override
     public T extract() {
-        return null;
+        return heap.poll();
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return heap.isEmpty();
     }
 }
