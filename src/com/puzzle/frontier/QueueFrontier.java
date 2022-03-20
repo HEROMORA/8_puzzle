@@ -23,6 +23,11 @@ public class QueueFrontier<T> implements Frontier<T> {
     }
 
     @Override
+    public boolean contains(T obj) {
+        return queue.contains(obj);
+    }
+
+    @Override
     public boolean isEmpty() {
         return queue.isEmpty();
     }

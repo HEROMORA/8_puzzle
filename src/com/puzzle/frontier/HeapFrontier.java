@@ -1,24 +1,31 @@
 package com.puzzle.frontier;
 
+import com.puzzle.State;
+
 import java.util.PriorityQueue;
 
-public class HeapFrontier<T> implements Frontier<T> {
+public class HeapFrontier implements Frontier<State> {
 
-    private final PriorityQueue<T> heap;
+    private final PriorityQueue<State> heap;
 
-    public HeapFrontier(T initialState) {
+    public HeapFrontier(State initialState) {
         heap = new PriorityQueue<>();
         heap.add(initialState);
     }
 
     @Override
-    public void add(T obj) {
+    public void add(State obj) {
         heap.add(obj);
     }
 
     @Override
-    public T extract() {
+    public State extract() {
         return heap.poll();
+    }
+
+    @Override
+    public boolean contains(State obj) {
+        return heap.contains(obj);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.puzzle;
 
+import com.puzzle.cost.CostFunction;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,18 +13,21 @@ public class State {
     private final int[] sequence;
     private final int cost;
     private final int zeroIndex;
+    private final CostFunction costFunction;
 
-    public State(int[] sequence) {
+    public State(int[] sequence, CostFunction costFunction) {
         this.sequence = sequence;
         this.cost = 0;
         this.zeroIndex = getZeroIndex();
+        this.costFunction = costFunction;
     }
 
-    public State(int[] sequence, int cost, State parent) {
+    public State(int[] sequence, int cost, State parent, CostFunction costFunction) {
         this.sequence = sequence;
         this.zeroIndex = getZeroIndex();
         this.cost = cost;
         this.parent = parent;
+        this.costFunction = costFunction;
     }
 
     public int[] getSequence() {
@@ -53,6 +58,10 @@ public class State {
         }
 
         return states;
+    }
+
+    public boolean isGoal() {
+        return Arrays.equals(sequence, optimal);
     }
 
     public State getParent() {
@@ -93,8 +102,8 @@ public class State {
     private State getNewState(int bias) {
         int idx = this.zeroIndex + bias;
         int[] newStateArr = swap(sequence, this.zeroIndex, idx);
-        int newCost = this.cost + 1;
-        return new State(newStateArr, newCost, this);
+        int newCost = this.costFunction.calculateCost(this.cost, this.sequence);
+        return new State(newStateArr, newCost, this, this.costFunction);
     }
 
 
@@ -112,10 +121,6 @@ public class State {
 
     private State moveRight() {
         return getNewState(1);
-    }
-
-    private boolean isGoal() {
-        return Arrays.equals(sequence, optimal);
     }
 
     private int[] swap(int[] arr, int a, int b) {

@@ -22,6 +22,11 @@ public class StackFrontier<T> implements Frontier<T> {
     }
 
     @Override
+    public boolean contains(T obj) {
+        return stack.contains(obj);
+    }
+
+    @Override
     public boolean isEmpty() {
         return stack.isEmpty();
     }
