@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class StackFrontier<T> implements Frontier<T> {
 
-    public Stack<T> stack;
+    private final Stack<T> stack;
 
     public StackFrontier(T initialState) {
         stack = new Stack<>();

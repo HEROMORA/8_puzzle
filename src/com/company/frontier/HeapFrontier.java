@@ -4,7 +4,7 @@ import java.util.PriorityQueue;
 
 public class HeapFrontier<T> implements Frontier<T> {
 
-    public PriorityQueue<T> heap;
+    private final PriorityQueue<T> heap;
 
     public HeapFrontier(T initialState) {
         heap = new PriorityQueue<>();

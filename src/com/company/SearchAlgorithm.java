@@ -5,8 +5,8 @@ import com.company.frontier.Frontier;
 import java.util.HashSet;
 
 public abstract class SearchAlgorithm<T> {
-    public HashSet<T> explored;
-    public Frontier<T> frontier;
+    private HashSet<T> explored;
+    private Frontier<T> frontier;
 
     public void addToFrontier(T obj) {
         frontier.add(obj);
@@ -23,7 +23,6 @@ public abstract class SearchAlgorithm<T> {
     public boolean isExplored(T obj) {
         return explored.contains(obj);
     }
-
 
 
 }

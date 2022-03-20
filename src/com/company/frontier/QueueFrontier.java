@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public class QueueFrontier<T> implements Frontier<T> {
 
-    public Queue<T> queue;
+    private final Queue<T> queue;
 
     public QueueFrontier(T initialState) {
         queue = new LinkedList<>();
