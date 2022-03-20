@@ -1,4 +1,4 @@
-package com.company.frontier;
+package com.puzzle.frontier;
 
 import java.util.PriorityQueue;
 

@@ -1,4 +1,4 @@
-package com.company.frontier;
+package com.puzzle.frontier;
 
 public interface Frontier<T> {
     void add(T obj);

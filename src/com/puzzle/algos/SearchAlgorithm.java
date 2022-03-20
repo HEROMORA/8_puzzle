@@ -1,6 +1,6 @@
-package com.company;
+package com.puzzle.algos;
 
-import com.company.frontier.Frontier;
+import com.puzzle.frontier.Frontier;
 
 import java.util.HashSet;
 
