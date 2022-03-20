@@ -7,10 +7,16 @@ import java.util.List;
 public class State {
     private static final int[] optimal = {0,1,2,3,4,5,6,7,8};
 
-    private final State parent;
+    private State parent;
     private final int[] sequence;
     private final int cost;
     private final int zeroIndex;
+
+    public State(int[] sequence) {
+        this.sequence = sequence;
+        this.cost = 0;
+        this.zeroIndex = getZeroIndex();
+    }
 
     public State(int[] sequence, int cost, State parent) {
         this.sequence = sequence;
@@ -66,11 +72,11 @@ public class State {
     }
 
     private boolean canMoveRight() {
-        return ((zeroIndex + 1)  % 3) == 0;
+        return ((zeroIndex + 1)  % 3) != 0;
     }
 
     private boolean canMoveLeft() {
-        return (zeroIndex % 3) == 0;
+        return (zeroIndex % 3) != 0;
     }
 
     private int getZeroIndex() {
@@ -86,7 +92,7 @@ public class State {
 
     private State getNewState(int bias) {
         int idx = this.zeroIndex + bias;
-        int[] newStateArr = swap(this.sequence, this.zeroIndex, idx);
+        int[] newStateArr = swap(sequence, this.zeroIndex, idx);
         int newCost = this.cost + 1;
         return new State(newStateArr, newCost, this);
     }
@@ -113,9 +119,10 @@ public class State {
     }
 
     private int[] swap(int[] arr, int a, int b) {
-        int temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
-        return arr;
+        int[] newArr = arr.clone();
+        int temp = newArr[a];
+        newArr[a] = newArr[b];
+        newArr[b] = temp;
+        return newArr;
     }
 }
