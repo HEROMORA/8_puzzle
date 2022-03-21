@@ -31,6 +31,10 @@ public abstract class SearchAlgorithm<T> {
         return explored.contains(obj);
     }
 
+    public boolean isInFrontier(State obj) {return frontier.contains(obj);}
+
+    public abstract void updateFrontier(State child);
+
     public int search() {
         while (!frontier.isEmpty()) {
             State currentState = frontier.extract();
@@ -43,9 +47,7 @@ public abstract class SearchAlgorithm<T> {
             List<State> children = currentState.getPossibleChildren();
 
             for (State child: children) {
-                if (!explored.contains(child) && !frontier.contains(child)) {
-                    frontier.add(child);
-                }
+                updateFrontier(child);
             }
 
         }

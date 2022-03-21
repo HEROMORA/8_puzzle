@@ -2,6 +2,7 @@ package com.puzzle.frontier;
 
 import com.puzzle.State;
 
+import java.util.Iterator;
 import java.util.PriorityQueue;
 
 public class HeapFrontier implements Frontier<State> {
@@ -15,6 +16,15 @@ public class HeapFrontier implements Frontier<State> {
 
     @Override
     public void add(State obj) {
+
+        for (State state : heap) {
+            if (state.equals(obj)) {
+                if (state.getCost() > obj.getCost()) {
+                    heap.remove(state);
+                }
+                return;
+            }
+        }
         heap.add(obj);
     }
 
