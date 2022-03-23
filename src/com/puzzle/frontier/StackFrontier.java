@@ -1,28 +1,30 @@
 package com.puzzle.frontier;
 
+import com.puzzle.State;
+
 import java.util.Stack;
 
-public class StackFrontier<T> implements Frontier<T> {
+public class StackFrontier implements Frontier<State> {
 
-    private final Stack<T> stack;
+    private final Stack<State> stack;
 
-    public StackFrontier(T initialState) {
+    public StackFrontier(State initialState) {
         stack = new Stack<>();
         stack.push(initialState);
     }
 
     @Override
-    public void add(T obj) {
+    public void add(State obj) {
         stack.push(obj);
     }
 
     @Override
-    public T extract() {
+    public State extract() {
         return stack.pop();
     }
 
     @Override
-    public boolean contains(T obj) {
+    public boolean contains(State obj) {
         return stack.contains(obj);
     }
 

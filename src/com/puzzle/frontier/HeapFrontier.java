@@ -16,15 +16,15 @@ public class HeapFrontier implements Frontier<State> {
 
     @Override
     public void add(State obj) {
-
-        for (State state : heap) {
-            if (state.equals(obj)) {
-                if (state.getCost() > obj.getCost()) {
-                    heap.remove(state);
-                }
-                return;
-            }
-        }
+        // TODO check if it works on all cases
+//        for (State state : heap) {
+//            if (state.equals(obj)) {
+//                if (state.getCost() > obj.getCost()) {
+//                    heap.remove(state);
+//                }
+//                return;
+//            }
+//        }
         heap.add(obj);
     }
 
@@ -35,11 +35,20 @@ public class HeapFrontier implements Frontier<State> {
 
     @Override
     public boolean contains(State obj) {
-        return heap.contains(obj);
+        for(State state: heap){
+            if(state.isSameState(obj)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean isEmpty() {
         return heap.isEmpty();
+    }
+
+    public void decreaseKey(State state) {
+        // TODO: decrease key
     }
 }

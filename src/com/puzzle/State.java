@@ -7,22 +7,22 @@ import java.util.Arrays;
 import java.util.List;
 
 public class State {
-    private static final int[] optimal = {0,1,2,3,4,5,6,7,8};
+    private static final int optimal = 12345678;
 
     private State parent;
-    private final int[] sequence;
+    private final int sequence;
     private final int cost;
     private final int zeroIndex;
     private final CostFunction costFunction;
 
-    public State(int[] sequence, CostFunction costFunction) {
+    public State(int sequence, CostFunction costFunction) {
         this.sequence = sequence;
         this.cost = 0;
         this.zeroIndex = getZeroIndex();
         this.costFunction = costFunction;
     }
 
-    public State(int[] sequence, int cost, State parent, CostFunction costFunction) {
+    public State(int sequence, int cost, State parent, CostFunction costFunction) {
         this.sequence = sequence;
         this.zeroIndex = getZeroIndex();
         this.cost = cost;
@@ -30,12 +30,12 @@ public class State {
         this.costFunction = costFunction;
     }
 
-    public int[] getSequence() {
+    public int getSequence() {
         return sequence;
     }
 
     public boolean isSameState(State other) {
-        return Arrays.equals(this.sequence, other.sequence);
+        return this.sequence == other.sequence;
     }
 
     public List<State> getPossibleChildren() {
@@ -61,7 +61,7 @@ public class State {
     }
 
     public boolean isGoal() {
-        return Arrays.equals(sequence, optimal);
+        return sequence == optimal;
     }
 
     public State getParent() {
@@ -89,10 +89,12 @@ public class State {
     }
 
     private int getZeroIndex() {
-        for (int i = 0; i < this.sequence.length; i++) {
-            if (this.sequence[i] == 0) {
+        int seq = this.sequence;
+        for (int i = 0; i < 9; i++) {
+            if (seq%10 == 0) {
                 return i;
             }
+            seq = seq/10;
         }
 
         return -1;
@@ -101,9 +103,26 @@ public class State {
 
     private State getNewState(int bias) {
         int idx = this.zeroIndex + bias;
-        int[] newStateArr = swap(sequence, this.zeroIndex, idx);
-        int newCost = this.costFunction.calculateCost(this.cost, this.sequence);
-        return new State(newStateArr, newCost, this, this.costFunction);
+        String seq = String.valueOf(this.sequence);
+        int[] numbers = new int[seq.length()];
+        if(seq.length() < 9) {
+            numbers[0] = 0;
+        } else {
+            numbers[0] = seq.charAt(0) - '0';
+        }
+        for (int i = 1; i < seq.length(); i++) {
+            numbers[i] = seq.charAt(i) - '0';
+        }
+        int[] newStateArr = swap(numbers, this.zeroIndex, idx);
+
+        int newSequence = newStateArr[0];
+        for (int i = 1; i<newStateArr.length ; i++) {
+            newSequence = newSequence*10;
+            newSequence = newSequence + newStateArr[i];
+        }
+
+        int newCost = this.costFunction.calculateCost(this.cost, newSequence);
+        return new State(newSequence, newCost, this, this.costFunction);
     }
 
 

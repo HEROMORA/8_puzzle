@@ -1,30 +1,37 @@
 package com.puzzle.frontier;
 
+import com.puzzle.State;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class QueueFrontier<T> implements Frontier<T> {
+public class QueueFrontier implements Frontier<State> {
 
-    private final Queue<T> queue;
+    private final Queue<State> queue;
 
-    public QueueFrontier(T initialState) {
+    public QueueFrontier(State initialState) {
         queue = new LinkedList<>();
         queue.add(initialState);
     }
 
     @Override
-    public void add(T obj) {
+    public void add(State obj) {
         queue.add(obj);
     }
 
     @Override
-    public T extract() {
+    public State extract() {
         return queue.remove();
     }
 
     @Override
-    public boolean contains(T obj) {
-        return queue.contains(obj);
+    public boolean contains(State obj) {
+        for(State state: queue){
+            if(state.isSameState(obj)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
