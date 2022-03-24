@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public abstract class SearchAlgorithm<T> {
-    private final HashSet<State> explored;
+    private final HashSet<Integer> explored;
     private final Frontier<State> frontier;
 
     public SearchAlgorithm(Frontier<State> frontier) {
@@ -25,18 +25,19 @@ public abstract class SearchAlgorithm<T> {
     }
 
     public void setExplored(State obj) {
-        explored.add(obj);
+        explored.add(obj.getSequence());
     }
 
     public boolean isNotExplored(State obj) {
 
-        for(State state: explored){
-            if(state.isSameState(obj)){
+        /*for(int state: explored){
+            if(state == obj.getSequence()){
                 return false;
             }
-        }
-        return true;
-//        return !explored.contains(obj);
+        }*/
+
+        //return true;
+        return !explored.contains(obj.getSequence());
     }
 
     public boolean isInFrontier(State obj) {
@@ -55,7 +56,7 @@ public abstract class SearchAlgorithm<T> {
 
             State currentState = frontier.extract();
             System.out.println("Current state: " + currentState.getSequence());
-            explored.add(currentState);
+            explored.add(currentState.getSequence());
 
             if (currentState.isGoal()) {
                 System.out.println(currentState.getSequence());

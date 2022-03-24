@@ -1,5 +1,6 @@
 package com.puzzle;
 
+import com.puzzle.algos.AStar;
 import com.puzzle.algos.BFS;
 import com.puzzle.algos.DFS;
 import com.puzzle.algos.SearchAlgorithm;
@@ -9,12 +10,12 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-//        int[] seq = {1,2,5,3,4,0,6,7,8};
-//        int [] seq = {1,0,2,3,4,5,6,7,8};
-                int [] seq = {8,4,7,6,3,2,1,5,0};
+        //int seq = 125340678;
+        int seq = 102345678;
+        //int  seq = 847632150;
 
-        SearchAlgorithm<State> algo = new DFS(seq);
-        algo.search();
+        SearchAlgorithm<State> algo = new AStar<State>(seq);
+        if(algo.search() == -1) System.out.println("Unsolvable");
 //
 //        List<State> children =  s.getPossibleChildren();
 //

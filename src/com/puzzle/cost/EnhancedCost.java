@@ -1,8 +1,9 @@
 package com.puzzle.cost;
 
-import java.util.List;
+import com.puzzle.Util;
 
 public class EnhancedCost implements CostFunction {
+
     private int getRowIndex(int val) {
         return val/3;
     }
@@ -12,6 +13,7 @@ public class EnhancedCost implements CostFunction {
     }
 
     public float getEuclideanDistance(int[] sequence) {
+
         //TODO
         float heuristic = 0;
         for (int i = 0; i < sequence.length; i++) {
@@ -44,6 +46,9 @@ public class EnhancedCost implements CostFunction {
 
     @Override
     public int calculateCost(int parentCost, int sequence) {
-        return 0;
+
+        int h = calculateManhattanDistance(Util.getArrSequence(sequence));
+
+        return h+parentCost+1;
     }
 }

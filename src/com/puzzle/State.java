@@ -90,9 +90,10 @@ public class State {
 
     private int getZeroIndex() {
         int seq = this.sequence;
+        if (seq < 100000000) return 8;
         for (int i = 0; i < 9; i++) {
             if (seq%10 == 0) {
-                return i;
+                return 8 - i;
             }
             seq = seq/10;
         }
@@ -103,16 +104,7 @@ public class State {
 
     private State getNewState(int bias) {
         int idx = this.zeroIndex + bias;
-        String seq = String.valueOf(this.sequence);
-        int[] numbers = new int[seq.length()];
-        if(seq.length() < 9) {
-            numbers[0] = 0;
-        } else {
-            numbers[0] = seq.charAt(0) - '0';
-        }
-        for (int i = 1; i < seq.length(); i++) {
-            numbers[i] = seq.charAt(i) - '0';
-        }
+        int [] numbers = Util.getArrSequence(this.sequence);
         int[] newStateArr = swap(numbers, this.zeroIndex, idx);
 
         int newSequence = newStateArr[0];
