@@ -46,6 +46,7 @@ public class EnhancedCost implements CostFunction {
 
     @Override
     public int calculateCost(int parentCost, int sequence) {
+        //TODO: Choose between Manhattan and Euclidean
 
         int h = calculateManhattanDistance(Util.getArrSequence(sequence));
 

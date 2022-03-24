@@ -3,7 +3,7 @@ package com.puzzle;
 public class Util {
     public static int [] getArrSequence(int sequence){
         String seq = String.valueOf(sequence);
-        int[] numbers = new int[seq.length()];
+        int[] numbers = new int[9];
         if(seq.length() < 9) {
             numbers[0] = 0;
         } else {

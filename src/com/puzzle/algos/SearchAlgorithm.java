@@ -67,7 +67,7 @@ public abstract class SearchAlgorithm<T> {
 
             for (State child: children) {
 //                System.out.println(Arrays.toString(child.getSequence()));
-                updateFrontier(child);
+                if(isNotExplored(child)) updateFrontier(child);
             }
 
         }
