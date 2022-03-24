@@ -1,6 +1,8 @@
 package com.puzzle;
 
 import com.puzzle.algos.AStar;
+import com.puzzle.algos.BFS;
+import com.puzzle.algos.DFS;
 import com.puzzle.algos.SearchAlgorithm;
 import com.puzzle.cost.CostType;
 import com.puzzle.view.MainView;
@@ -19,7 +21,24 @@ public class Controller {
             public void actionPerformed(ActionEvent e) {
 
                 int seq = seq();
-                algo = new AStar<State>(seq, CostType.MANHATTAN);
+                String  algochoice = (String) view.getAlgoBox().getSelectedItem();
+
+                switch (algochoice){
+
+                    case "A* | Euclidean":
+                        algo = new AStar<State>(seq, CostType.EUCLIDEAN);
+                        break;
+                    case "BFS":
+                        algo = new BFS(seq);
+                        break;
+                    case "DFS":
+                        algo = new DFS(seq);
+                        break;
+                    default:
+                        algo = new AStar<State>(seq, CostType.MANHATTAN);
+                        break;
+
+                }
 
                 Timer.tick();
                 int res = algo.search();
