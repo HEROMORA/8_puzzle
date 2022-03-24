@@ -82,11 +82,11 @@ public class State {
     public int getCost() {
         return cost;
     }
-    public int getH()
+    public float getH()
     {
         return costFunction.calculateH(sequence);
     }
-    public int getF()
+    public float getF()
     {
         return costFunction.calculateF(parent.getCost(), sequence);
     }

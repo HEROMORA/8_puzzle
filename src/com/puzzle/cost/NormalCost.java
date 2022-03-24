@@ -8,12 +8,12 @@ public class NormalCost implements CostFunction {
     }
 
     @Override
-    public int calculateH(int sequence) {
+    public float calculateH(int sequence) {
         return 0;
     }
 
     @Override
-    public int calculateF(int parentCost, int sequence) {
+    public float calculateF(int parentCost, int sequence) {
         return calculateCost(parentCost,sequence);
     }
 }

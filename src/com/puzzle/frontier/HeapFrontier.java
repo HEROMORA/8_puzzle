@@ -50,15 +50,18 @@ public class HeapFrontier implements Frontier<State> {
 
     public void decreaseKey(State parent,State state) {
         // TODO: decrease key
-        for(State inHeap : heap)
+        Iterator<State> it = heap.iterator();
+        State inHeap;
+        while (it.hasNext())
         {
+            inHeap = it.next();
             if (inHeap.isSameState(state))
             {
 
-                if (inHeap.getCost() > state.costFunction.calculateCost(state.getParent().getCost(),state.getSequence()))
+                if (inHeap.getF() > state.getF())
                 {
-                    inHeap.updateCost();
-                    inHeap.setParent(parent);
+                    it.remove();
+                    heap.add(state);
                 }
                 break;
             }

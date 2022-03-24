@@ -32,7 +32,7 @@ public class EnhancedCost implements CostFunction {
         return heuristic;
     }
 
-    public int calculateManhattanDistance(int [] sequence) {
+    public float calculateManhattanDistance(int [] sequence) {
         //TODO
         int heuristic = 0;
         for (int i = 0; i < sequence.length; i++) {
@@ -56,16 +56,16 @@ public class EnhancedCost implements CostFunction {
     }
 
     @Override
-    public int calculateH(int sequence)
+    public float calculateH(int sequence)
     {
         int []seq = Util.getArrSequence(sequence);
-        return (costType == CostType.EUCLIDEAN)? (Math.round(getEuclideanDistance(seq))):calculateManhattanDistance(seq);
+        return (costType == CostType.EUCLIDEAN)? (getEuclideanDistance(seq)):(float)calculateManhattanDistance(seq);
     }
 
     @Override
-    public int calculateF(int parentCost, int sequence)
+    public float calculateF(int parentCost, int sequence)
     {
-        return calculateCost(parentCost,sequence) + calculateH(sequence);
+        return (float)calculateCost(parentCost,sequence) + calculateH(sequence);
     }
 
     public EnhancedCost(CostType type)
