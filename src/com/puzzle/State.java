@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.System.exit;
+
 public class State {
     private static final int optimal = 12345678;
 
@@ -107,6 +109,17 @@ public class State {
         int [] numbers = Util.getArrSequence(this.sequence);
         int[] newStateArr = swap(numbers, this.zeroIndex, idx);
 
+        /*FOR DEBUGGING ONLY, TODO:REMOVE LATER*/
+        int zerocount = 0;
+        for(int i : newStateArr)
+        {
+            if (i == 0) zerocount++;
+        }
+        if (zerocount > 1)
+        {
+            System.err.println("2 zeros!!");
+            exit(0);
+        }
         int newSequence = newStateArr[0];
         for (int i = 1; i<newStateArr.length ; i++) {
             newSequence = newSequence*10;
@@ -139,6 +152,16 @@ public class State {
         int temp = newArr[a];
         newArr[a] = newArr[b];
         newArr[b] = temp;
+        /*FOR DEBUGGING ONLY, TODO:REMOVE LATER*/
+        int zerocount = 0;
+        for(int i : newArr)
+        {
+            if (i == 0) zerocount++;
+        }
+        if (zerocount > 1)
+        {
+            System.err.println("2 zeros!!");
+        }
         return newArr;
     }
 }

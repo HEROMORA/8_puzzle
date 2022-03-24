@@ -6,14 +6,30 @@ import com.puzzle.algos.DFS;
 import com.puzzle.algos.SearchAlgorithm;
 import org.junit.Assert.*;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+
 public class test {
+    @BeforeClass
+    public static void mute(){
+        System.setOut(new PrintStream(new OutputStream() {
+            @Override
+            public void write(int arg0) throws IOException {
+
+            }
+        }));
+    }
+
     private ArrayList<Integer> initTestCases()
     {
         ArrayList<Integer> testCases = new ArrayList<>();
@@ -33,7 +49,9 @@ public class test {
         ArrayList<Integer> tests = initTestCases();
         for (int seq :tests){
             SearchAlgorithm<State> algo = new DFS(seq);
-            if(algo.search() == -1) fail("Unsolvable");
+            int res = algo.search();
+            if(res == -1) fail("Unsolvable");
+            else assertEquals(res,12345678);
         }
     }
     @Test
@@ -41,16 +59,18 @@ public class test {
         ArrayList<Integer> tests = initTestCases();
         for (int seq :tests){
             SearchAlgorithm<State> algo = new BFS(seq);
-            if(algo.search() == -1) fail("Unsolvable");
-        }
+            int res = algo.search();
+            if(res == -1) fail("Unsolvable");
+            else assertEquals(res,12345678);        }
     }
     @Test
     public void testAstarManhattan(){
         ArrayList<Integer> tests = initTestCases();
         for (int seq :tests){
             SearchAlgorithm<State> algo = new AStar<>(seq);
-            if(algo.search() == -1) fail("Unsolvable");
-        }
+            int res = algo.search();
+            if(res == -1) fail("Unsolvable");
+            else assertEquals(res,12345678);        }
     }
 }
 //TODO: WHERE DO THE MULTIPLE ZEROS COME FROM???????

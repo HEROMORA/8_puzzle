@@ -60,7 +60,7 @@ public abstract class SearchAlgorithm<T> {
 
             if (currentState.isGoal()) {
                 System.out.println(currentState.getSequence());
-                return 999;
+                return currentState.getSequence();
             }
 
             List<State> children = currentState.getPossibleChildren();

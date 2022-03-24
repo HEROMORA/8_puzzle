@@ -9,7 +9,8 @@ public class Util {
         } else {
             numbers[0] = seq.charAt(0) - '0';
         }
-        for (int i = 1; i < seq.length(); i++) {
+        int start = (sequence < 100000000)? 0 : 1;
+        for (int i = start; i < seq.length(); i++) {
             numbers[i] = seq.charAt(i) - '0';
         }
         return numbers;
