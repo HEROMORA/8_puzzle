@@ -1,4 +1,4 @@
-;
+
 import com.puzzle.State;
 import com.puzzle.algos.AStar;
 import com.puzzle.algos.BFS;
@@ -49,7 +49,7 @@ public class test {
         testCases.add(125340678);
         //testCases.add(631285074);
 
-        testCases.add(86215374);
+        //testCases.add(86215374);
         //testCases.add(427613850);
         return testCases;
     }

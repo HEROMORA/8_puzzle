@@ -10,14 +10,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //int seq = 427613850;
-        int seq = 102345678; //solves
+        int seq = 125340678;
+        //int seq = 102345678; //solves
         //int  seq = 847632150; //this one is a lot of trouble
         //int seq = 168403725;
         //int seq = 185647230;
 
-        SearchAlgorithm<State> algo = new AStar<>(seq, CostType.MANHATTAN);
-        //SearchAlgorithm<State> algo = new AStar<>(seq, CostType.EUCLIDEAN);
+        //SearchAlgorithm<State> algo = new AStar<>(seq, CostType.MANHATTAN);
+        SearchAlgorithm<State> algo = new AStar<>(seq, CostType.EUCLIDEAN);
         //SearchAlgorithm<State> algo = new BFS(seq);
         //SearchAlgorithm<State> algo = new DFS(seq);
 
@@ -27,6 +27,8 @@ public class Main {
 
 
         System.out.println("Finished in "+time+" Seconds");
+        System.out.println("Search Depth = "+algo.searchDepth);
+        System.out.println("Nodes expanded = "+algo.expandedNodesCount);
 
         if(res == -1) System.out.println("Unsolvable.");
         else {
