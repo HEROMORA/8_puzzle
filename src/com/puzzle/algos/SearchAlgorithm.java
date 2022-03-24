@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class SearchAlgorithm<T> {
     private final HashSet<Integer> explored;
     private final Frontier<State> frontier;
-
+    public State sol;
     public SearchAlgorithm(Frontier<State> frontier) {
         this.frontier = frontier;
         this.explored = new HashSet<>();
@@ -48,18 +48,19 @@ public abstract class SearchAlgorithm<T> {
         return frontier;
     }
 
-    public abstract void updateFrontier(State child);
+    public abstract void updateFrontier(State parent,State child);
 
     public int search() {
 
         while (!frontier.isEmpty()) {
 
             State currentState = frontier.extract();
-            System.out.println("Current state: " + currentState.getSequence());
+            //System.out.println("Current state: " + currentState.getSequence());
             explored.add(currentState.getSequence());
 
             if (currentState.isGoal()) {
-                System.out.println(currentState.getSequence());
+                //System.out.println(currentState.getSequence());
+                sol = currentState;
                 return currentState.getSequence();
             }
 
@@ -67,7 +68,7 @@ public abstract class SearchAlgorithm<T> {
 
             for (State child: children) {
 //                System.out.println(Arrays.toString(child.getSequence()));
-                if(isNotExplored(child)) updateFrontier(child);
+                if(isNotExplored(child)) updateFrontier(currentState,child);
             }
 
         }

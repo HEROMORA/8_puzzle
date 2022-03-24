@@ -4,6 +4,7 @@ import com.puzzle.algos.AStar;
 import com.puzzle.algos.BFS;
 import com.puzzle.algos.DFS;
 import com.puzzle.algos.SearchAlgorithm;
+import com.puzzle.cost.CostType;
 import org.junit.Assert.*;
 
 import org.junit.Before;
@@ -42,6 +43,13 @@ public class test {
         testCases.add(123456078);
         testCases.add(123456708);
         testCases.add(123456780);
+
+        testCases.add(168403725);
+        //testCases.add(847632150);
+        testCases.add(125340678);
+        //testCases.add(631285074);
+
+
         return testCases;
     }
     @Test
@@ -67,10 +75,18 @@ public class test {
     public void testAstarManhattan(){
         ArrayList<Integer> tests = initTestCases();
         for (int seq :tests){
-            SearchAlgorithm<State> algo = new AStar<>(seq);
+            SearchAlgorithm<State> algo = new AStar<>(seq,CostType.MANHATTAN);
+            int res = algo.search();
+            if(res == -1) fail("Unsolvable");
+            else assertEquals(res,12345678);        }
+    }
+    @Test
+    public void testAstarEuclidean(){
+        ArrayList<Integer> tests = initTestCases();
+        for (int seq :tests){
+            SearchAlgorithm<State> algo = new AStar<>(seq,CostType.EUCLIDEAN);
             int res = algo.search();
             if(res == -1) fail("Unsolvable");
             else assertEquals(res,12345678);        }
     }
 }
-//TODO: WHERE DO THE MULTIPLE ZEROS COME FROM???????

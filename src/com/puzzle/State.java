@@ -11,17 +11,26 @@ import static java.lang.System.exit;
 public class State {
     private static final int optimal = 12345678;
 
+    public void setParent(State parent) {
+        this.parent = parent;
+    }
+
+    public void updateCost() {
+        this.cost = costFunction.calculateCost(parent.getCost(), sequence);
+    }
+
     private State parent;
     private final int sequence;
-    private final int cost;
+    private int cost;
     private final int zeroIndex;
-    private final CostFunction costFunction;
+    public final CostFunction costFunction;
 
     public State(int sequence, CostFunction costFunction) {
         this.sequence = sequence;
         this.cost = 0;
         this.zeroIndex = getZeroIndex();
         this.costFunction = costFunction;
+        this.parent = this;
     }
 
     public State(int sequence, int cost, State parent, CostFunction costFunction) {
@@ -73,7 +82,14 @@ public class State {
     public int getCost() {
         return cost;
     }
-
+    public int getH()
+    {
+        return costFunction.calculateH(sequence);
+    }
+    public int getF()
+    {
+        return costFunction.calculateF(parent.getCost(), sequence);
+    }
     private boolean canMoveUp() {
         return zeroIndex > 2;
     }
@@ -109,17 +125,6 @@ public class State {
         int [] numbers = Util.getArrSequence(this.sequence);
         int[] newStateArr = swap(numbers, this.zeroIndex, idx);
 
-        /*FOR DEBUGGING ONLY, TODO:REMOVE LATER*/
-        int zerocount = 0;
-        for(int i : newStateArr)
-        {
-            if (i == 0) zerocount++;
-        }
-        if (zerocount > 1)
-        {
-            System.err.println("2 zeros!!");
-            exit(0);
-        }
         int newSequence = newStateArr[0];
         for (int i = 1; i<newStateArr.length ; i++) {
             newSequence = newSequence*10;
@@ -152,16 +157,20 @@ public class State {
         int temp = newArr[a];
         newArr[a] = newArr[b];
         newArr[b] = temp;
-        /*FOR DEBUGGING ONLY, TODO:REMOVE LATER*/
-        int zerocount = 0;
-        for(int i : newArr)
-        {
-            if (i == 0) zerocount++;
-        }
-        if (zerocount > 1)
-        {
-            System.err.println("2 zeros!!");
-        }
+
         return newArr;
+    }
+
+    public ArrayList<Integer> traceback()
+    {
+        //TODO
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        State current = this;
+        if(!this.parent.isSameState(this))
+        {
+            arr.addAll(this.parent.traceback());
+            arr.add(this.getSequence());
+        }else{arr.add(this.getSequence());}
+        return arr;
     }
 }

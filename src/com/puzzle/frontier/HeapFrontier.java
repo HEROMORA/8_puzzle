@@ -2,6 +2,7 @@ package com.puzzle.frontier;
 
 import com.puzzle.State;
 
+import java.util.Iterator;
 import java.util.PriorityQueue;
 
 public class HeapFrontier implements Frontier<State> {
@@ -47,7 +48,20 @@ public class HeapFrontier implements Frontier<State> {
         return heap.isEmpty();
     }
 
-    public void decreaseKey(State state) {
+    public void decreaseKey(State parent,State state) {
         // TODO: decrease key
+        for(State inHeap : heap)
+        {
+            if (inHeap.isSameState(state))
+            {
+
+                if (inHeap.getCost() > state.costFunction.calculateCost(state.getParent().getCost(),state.getSequence()))
+                {
+                    inHeap.updateCost();
+                    inHeap.setParent(parent);
+                }
+                break;
+            }
+        }
     }
 }

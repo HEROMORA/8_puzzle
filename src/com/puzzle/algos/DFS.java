@@ -10,7 +10,7 @@ public class DFS extends SearchAlgorithm<State> {
     }
 
     @Override
-    public void updateFrontier(State child) {
+    public void updateFrontier(State parent, State child) {
         if(!isInFrontier(child) && isNotExplored(child)) {
             addToFrontier(child);
         }
