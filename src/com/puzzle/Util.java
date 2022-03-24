@@ -15,4 +15,13 @@ public class Util {
         }
         return numbers;
     }
+    public static int getSequenceFromArr(int [] newStateArr)
+    {
+        int newSequence = newStateArr[0];
+        for (int i = 1; i<newStateArr.length ; i++) {
+            newSequence = newSequence*10;
+            newSequence = newSequence + newStateArr[i];
+        }
+        return newSequence;
+    }
 }

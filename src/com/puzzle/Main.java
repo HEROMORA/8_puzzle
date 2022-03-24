@@ -5,6 +5,9 @@ import com.puzzle.algos.BFS;
 import com.puzzle.algos.DFS;
 import com.puzzle.algos.SearchAlgorithm;
 import com.puzzle.cost.CostType;
+import com.puzzle.view.MainView;
+
+import javax.swing.*;
 
 public class Main {
 
@@ -39,5 +42,11 @@ public class Main {
 //        List<State> children =  s.getPossibleChildren();
 //
 //        System.out.println((children.get(0).getCost()));
+
+        JFrame frame = new JFrame("8-Puzzle Solver");
+        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add (new MainView());
+        frame.pack();
+        frame.setVisible (true);
     }
 }
