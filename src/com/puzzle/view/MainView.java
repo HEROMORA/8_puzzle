@@ -68,7 +68,7 @@ public class MainView extends JPanel {
             for (int j = 0; j < 3; j++) {
                 x = 30 + 105 * i;
                 y = 40 + 30 * j;
-                fields[i * 3 + j].setBounds(x, y, 100, 25);
+                fields[j * 3 + i].setBounds(x, y, 100, 25);
             }
         }
 
