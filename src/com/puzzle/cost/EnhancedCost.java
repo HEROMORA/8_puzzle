@@ -28,7 +28,7 @@ public class EnhancedCost implements CostFunction {
 
             heuristic += (float) Math.sqrt(Math.pow(row - goalRow, 2) + Math.pow(col - goalCol, 2));
         }
-        System.out.println("H = "+heuristic);
+        //System.out.println("H = "+heuristic);
         return heuristic;
     }
 
@@ -44,7 +44,7 @@ public class EnhancedCost implements CostFunction {
 
             heuristic += Math.abs(row - goalRow) + Math.abs(col - goalCol);
         }
-        System.out.println("H = "+heuristic);
+        //System.out.println("H = "+heuristic);
 
         return heuristic;
     }
