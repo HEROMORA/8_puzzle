@@ -9,7 +9,7 @@ import java.util.Comparator;
 public class StateComparator implements Comparator<State> {
 
     @Override
-    public int compare(State o1, State o2) {
-        return Math.round(o1.getF() - o2.getF());
+    public int compare(State first, State second) {
+        return Math.round(first.getCost() - second.getCost());
     }
 }

@@ -14,12 +14,16 @@ import java.util.ArrayList;
 
 public class Controller {
     static MainView view;
-    static SearchAlgorithm algo;
+    static SearchAlgorithm<State> algo;
     static ArrayList<Integer> traceback;
+
+
+
+
     public Controller(MainView view)
     {
         this.view = view;
-        this.traceback = new ArrayList<>();
+        traceback = new ArrayList<>();
         this.view.getStartBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -30,7 +34,7 @@ public class Controller {
                 switch (algochoice){
 
                     case "A* | Euclidean":
-                        algo = new AStar<State>(seq, CostType.EUCLIDEAN);
+                        algo = new AStar(seq, CostType.EUCLIDEAN);
                         break;
                     case "BFS":
                         algo = new BFS(seq);
@@ -39,23 +43,27 @@ public class Controller {
                         algo = new DFS(seq);
                         break;
                     default:
-                        algo = new AStar<State>(seq, CostType.MANHATTAN);
+                        algo = new AStar(seq, CostType.MANHATTAN);
                         break;
 
                 }
 
                 Timer.tick();
-                int res = algo.search();
+                State resultState = algo.search();
                 long time = Timer.tock();
 
-                if( res != -1 ) {
-                    System.out.println("Cost = "+algo.sol.getCost());
-                    if(algo.sol.getCost() < 1000)
-                        System.out.println(algo.sol.traceback());
+                if( resultState != null) {
+                    float cost = resultState.getCost();
+                    ArrayList<Integer> resultTraceback = resultState.traceback();
 
-                    setOuts(algo,time);
+                    System.out.println("Cost = "+ cost);
 
-                    traceback = algo.sol.traceback();
+                    if(cost < 1000)
+                        System.out.println(resultTraceback);
+
+                    setOuts(algo, cost, time);
+                    traceback = resultTraceback;
+
                     traceback.remove(0);
                 }else {
                     System.out.println("Unsolvable.");
@@ -80,21 +88,22 @@ public class Controller {
                 }else if (! traceback.isEmpty())
                     setSeq(traceback.get(traceback.size() - 1));
 
+
             }
 
         });
 
 
     }
-    public static void setOuts(SearchAlgorithm algo, long time){
+    public static void setOuts(SearchAlgorithm<State> algo, float cost, long time){
 
         view.getTime().setText(String.valueOf(time)+" Seconds");
-        view.getCost().setText(String.valueOf(algo.sol.getCost()));
+        view.getCost().setText(String.valueOf(cost));
         view.getDepth().setText(String.valueOf(algo.searchDepth));
         view.getNodesExp().setText(String.valueOf(algo.expandedNodesCount));
 
     }
-    public static void setOutsNoSol(SearchAlgorithm algo, long time){
+    public static void setOutsNoSol(SearchAlgorithm<State> algo, long time){
 
         view.getTime().setText(String.valueOf(time)+" Seconds");
         view.getDepth().setText(String.valueOf(algo.searchDepth));

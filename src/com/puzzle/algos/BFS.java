@@ -11,7 +11,7 @@ public class BFS extends SearchAlgorithm<State> {
     }
 
     @Override
-    public void updateFrontier(State parent,State child) {
+    public void updateFrontier(State child) {
         if(!isInFrontier(child) && isNotExplored(child)) {
             addToFrontier(child);
         }

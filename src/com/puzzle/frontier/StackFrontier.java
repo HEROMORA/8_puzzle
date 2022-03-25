@@ -25,7 +25,12 @@ public class StackFrontier implements Frontier<State> {
 
     @Override
     public boolean contains(State obj) {
-        return stack.contains(obj);
+        for(State state: stack){
+            if(state.isSameState(obj)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

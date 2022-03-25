@@ -13,28 +13,37 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MainView view = new MainView();
-        JFrame frame = new JFrame("8-Puzzle Solver");
-        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add (view);
-        frame.pack();
-        frame.setVisible (true);
+//        MainView view = new MainView();
+//        JFrame frame = new JFrame("8-Puzzle Solver");
+//        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+//        frame.getContentPane().add(view);
+//        frame.pack();
+//        frame.setVisible (true);
 
 
-        //int seq = 125340678;
-        //int seq = 102345678; //solves
-        //int  seq = 847632150; //this one is a lot of trouble
-        //int seq = 168403725;
-        //int seq = 185647230;
+//        int seq = 125340678;
+//        int seq = 102345678; //solves
+        int  seq = 847632150; //this one is a lot of trouble
+//        int  seq = 847632015; //this one is a lot of trouble
+//        int seq = 168403725;
+//        int seq = 185647230;
         //int seq = controller.seq();
 
 
-        //SearchAlgorithm<State> algo = new AStar<>(seq, CostType.MANHATTAN);
+//        SearchAlgorithm<State> algo = new AStar<>(seq, CostType.MANHATTAN);
         //SearchAlgorithm<State> algo = new AStar<>(seq, CostType.EUCLIDEAN);
-        //SearchAlgorithm<State> algo = new BFS(seq);
+        SearchAlgorithm<State> algo = new BFS(seq);
+//        SearchAlgorithm<State> algo = new DFS(seq);
+        State finalState = algo.search();
+        if (finalState == null) {
+            System.out.println("Unsolvable");
+        } else {
+
+        System.out.println(finalState.getSequence());
+        }
         //SearchAlgorithm<State> algo = new DFS(seq);
 
-        Controller controller = new Controller(view);
+//        Controller controller = new Controller(view);
 
 
         /*Timer.tick();

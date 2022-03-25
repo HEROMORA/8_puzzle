@@ -1,23 +1,27 @@
 package com.puzzle.cost;
 
-import com.puzzle.State;
 import com.puzzle.Util;
 
 public class EnhancedCost implements CostFunction {
 
-    CostType costType;
+    private final CostType costType;
+
+    public EnhancedCost(CostType type)
+    {
+        this.costType = type;
+    }
+
 
     private int getRowIndex(int val) {
-        return val/3;
+        return val / 3 ;
     }
 
     private int getColIndex(int val) {
-        return val%3;
+        return val % 3;
     }
 
     public float getEuclideanDistance(int[] sequence) {
 
-        //TODO
         float heuristic = 0;
         for (int i = 0; i < sequence.length; i++) {
             int goalIndex = sequence[i];
@@ -28,12 +32,11 @@ public class EnhancedCost implements CostFunction {
 
             heuristic += (float) Math.sqrt(Math.pow(row - goalRow, 2) + Math.pow(col - goalCol, 2));
         }
-        //System.out.println("H = "+heuristic);
+
         return heuristic;
     }
 
     public float calculateManhattanDistance(int [] sequence) {
-        //TODO
         int heuristic = 0;
         for (int i = 0; i < sequence.length; i++) {
             int goalIndex = sequence[i];
@@ -44,32 +47,22 @@ public class EnhancedCost implements CostFunction {
 
             heuristic += Math.abs(row - goalRow) + Math.abs(col - goalCol);
         }
-        //System.out.println("H = "+heuristic);
 
         return heuristic;
     }
 
 
     @Override
-    public int calculateCost(int parentCost, int sequence) {
-        return parentCost + 1;
+    public float calculateCost(float parentCost, int sequence) {
+        return parentCost + calculateHeuristic(sequence) +  1;
     }
 
-    @Override
-    public float calculateH(int sequence)
+
+    private float calculateHeuristic(int sequence)
     {
-        int []seq = Util.getArrSequence(sequence);
-        return (costType == CostType.EUCLIDEAN)? (getEuclideanDistance(seq)):(float)calculateManhattanDistance(seq);
+        int[] seq = Util.getArrSequence(sequence);
+        return costType == CostType.EUCLIDEAN ?  getEuclideanDistance(seq) : calculateManhattanDistance(seq);
     }
 
-    @Override
-    public float calculateF(int parentCost, int sequence)
-    {
-        return (float)calculateCost(parentCost,sequence) + calculateH(sequence);
-    }
 
-    public EnhancedCost(CostType type)
-    {
-        this.costType = type;
-    }
 }

@@ -3,25 +3,14 @@ package com.puzzle;
 import com.puzzle.cost.CostFunction;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static java.lang.System.exit;
 
 public class State {
     private static final int optimal = 12345678;
 
-    public void setParent(State parent) {
-        this.parent = parent;
-    }
-
-    public void updateCost() {
-        this.cost = costFunction.calculateCost(parent.getCost(), sequence);
-    }
-
-    private State parent;
+    private final State parent;
     private final int sequence;
-    private int cost;
+    private final float cost;
     private final int zeroIndex;
     public final CostFunction costFunction;
 
@@ -33,7 +22,7 @@ public class State {
         this.parent = this;
     }
 
-    public State(int sequence, int cost, State parent, CostFunction costFunction) {
+    public State(int sequence, float cost, State parent, CostFunction costFunction) {
         this.sequence = sequence;
         this.zeroIndex = getZeroIndex();
         this.cost = cost;
@@ -41,9 +30,6 @@ public class State {
         this.costFunction = costFunction;
     }
 
-    public int getSequence() {
-        return sequence;
-    }
 
     public boolean isSameState(State other) {
         return this.sequence == other.sequence;
@@ -71,6 +57,22 @@ public class State {
         return states;
     }
 
+    public ArrayList<Integer> traceback()
+    {
+        ArrayList<Integer> arr = new ArrayList<>();
+        State current = this;
+        while (current.getParent() != null) {
+            arr.add(current.getSequence());
+            current = current.getParent();
+        }
+
+        return arr;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+
     public boolean isGoal() {
         return sequence == optimal;
     }
@@ -79,17 +81,10 @@ public class State {
         return parent;
     }
 
-    public int getCost() {
+    public float getCost() {
         return cost;
     }
-    public float getH()
-    {
-        return costFunction.calculateH(sequence);
-    }
-    public float getF()
-    {
-        return costFunction.calculateF(parent.getCost(), sequence);
-    }
+
     private boolean canMoveUp() {
         return zeroIndex > 2;
     }
@@ -110,10 +105,10 @@ public class State {
         int seq = this.sequence;
         if (seq < 100000000) return 8;
         for (int i = 0; i < 9; i++) {
-            if (seq%10 == 0) {
+            if (seq % 10 == 0) {
                 return 8 - i;
             }
-            seq = seq/10;
+            seq = seq / 10;
         }
 
         return -1;
@@ -126,12 +121,12 @@ public class State {
         int[] newStateArr = swap(numbers, this.zeroIndex, idx);
 
         int newSequence = newStateArr[0];
-        for (int i = 1; i<newStateArr.length ; i++) {
+        for (int i = 1; i < newStateArr.length ; i++) {
             newSequence = newSequence*10;
             newSequence = newSequence + newStateArr[i];
         }
 
-        int newCost = this.costFunction.calculateCost(this.cost, newSequence);
+        float newCost = this.costFunction.calculateCost(this.cost, newSequence);
         return new State(newSequence, newCost, this, this.costFunction);
     }
 
@@ -161,16 +156,4 @@ public class State {
         return newArr;
     }
 
-    public ArrayList<Integer> traceback()
-    {
-        //TODO
-        ArrayList<Integer> arr = new ArrayList<Integer>();
-        State current = this;
-        if(!this.parent.isSameState(this))
-        {
-            arr.addAll(this.parent.traceback());
-            arr.add(this.getSequence());
-        }else{arr.add(this.getSequence());}
-        return arr;
-    }
 }
