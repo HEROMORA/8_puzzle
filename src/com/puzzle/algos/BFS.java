@@ -6,7 +6,7 @@ import com.puzzle.frontier.QueueFrontier;
 
 public class BFS extends SearchAlgorithm<State> {
 
-    public BFS(int seq) {
+    public BFS(String seq) {
         super(new QueueFrontier(new State(seq, new NormalCost())));
     }
 

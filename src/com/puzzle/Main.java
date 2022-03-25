@@ -22,16 +22,16 @@ public class Main {
 
 
 //        int seq = 125340678;
-//        int seq = 102345678; //solves
-        int  seq = 847632150; //this one is a lot of trouble
+//        String seq = "102345678"; //solves
+        String seq = "847632150"; //this one is a lot of trouble
 //        int  seq = 847632015; //this one is a lot of trouble
-//        int seq = 168403725;
-//        int seq = 185647230;
+//        String seq = "168403725";
+//        String seq = "185647230";
         //int seq = controller.seq();
 
 
-//        SearchAlgorithm<State> algo = new AStar<>(seq, CostType.MANHATTAN);
-        //SearchAlgorithm<State> algo = new AStar<>(seq, CostType.EUCLIDEAN);
+//        SearchAlgorithm<State> algo = new AStar(seq, CostType.MANHATTAN);
+//        SearchAlgorithm<State> algo = new AStar(seq, CostType.EUCLIDEAN);
         SearchAlgorithm<State> algo = new BFS(seq);
 //        SearchAlgorithm<State> algo = new DFS(seq);
         State finalState = algo.search();

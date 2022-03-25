@@ -5,7 +5,7 @@ import com.puzzle.cost.NormalCost;
 import com.puzzle.frontier.StackFrontier;
 
 public class DFS extends SearchAlgorithm<State> {
-    public DFS(int seq) {
+    public DFS(String seq) {
         super(new StackFrontier(new State(seq, new NormalCost())));
     }
 

@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public abstract class SearchAlgorithm<T> {
-    private final HashSet<Integer> explored;
+    private final HashSet<String> explored;
     private final Frontier<State> frontier;
 
     public int expandedNodesCount = 0;
@@ -49,6 +49,7 @@ public abstract class SearchAlgorithm<T> {
         while (!frontier.isEmpty()) {
 
             State currentState = frontier.extract();
+
             explored.add(currentState.getSequence());
 
             // TODO: REVIEW
@@ -66,7 +67,6 @@ public abstract class SearchAlgorithm<T> {
                 expandedNodesCount++;
                 updateFrontier(child);
             }
-
 
         }
 

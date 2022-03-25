@@ -7,7 +7,7 @@ import com.puzzle.frontier.HeapFrontier;
 
 public class AStar extends SearchAlgorithm<State> {
 
-    public AStar(int sequence, CostType type) {
+    public AStar(String sequence, CostType type) {
         super(new HeapFrontier(new State(sequence, new EnhancedCost(type))));
     }
 

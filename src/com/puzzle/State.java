@@ -3,18 +3,20 @@ package com.puzzle;
 import com.puzzle.cost.CostFunction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class State {
-    private static final int optimal = 12345678;
+    private static final String optimal = "012345678";
 
     private final State parent;
-    private final int sequence;
+    private final String sequence;
     private final float cost;
     private final int zeroIndex;
     public final CostFunction costFunction;
 
-    public State(int sequence, CostFunction costFunction) {
+    public State(String sequence, CostFunction costFunction) {
         this.sequence = sequence;
         this.cost = 0;
         this.zeroIndex = getZeroIndex();
@@ -22,7 +24,7 @@ public class State {
         this.parent = this;
     }
 
-    public State(int sequence, float cost, State parent, CostFunction costFunction) {
+    public State(String sequence, float cost, State parent, CostFunction costFunction) {
         this.sequence = sequence;
         this.zeroIndex = getZeroIndex();
         this.cost = cost;
@@ -32,7 +34,7 @@ public class State {
 
 
     public boolean isSameState(State other) {
-        return this.sequence == other.sequence;
+        return this.sequence.equals(other.getSequence());
     }
 
     public List<State> getPossibleChildren() {
@@ -57,9 +59,9 @@ public class State {
         return states;
     }
 
-    public ArrayList<Integer> traceback()
+    public ArrayList<String> traceback()
     {
-        ArrayList<Integer> arr = new ArrayList<>();
+        ArrayList<String> arr = new ArrayList<>();
         State current = this;
         while (current.getParent() != null) {
             arr.add(current.getSequence());
@@ -69,12 +71,12 @@ public class State {
         return arr;
     }
 
-    public int getSequence() {
+    public String getSequence() {
         return sequence;
     }
 
     public boolean isGoal() {
-        return sequence == optimal;
+        return Objects.equals(sequence, optimal);
     }
 
     public State getParent() {
@@ -102,29 +104,14 @@ public class State {
     }
 
     private int getZeroIndex() {
-        int seq = this.sequence;
-        if (seq < 100000000) return 8;
-        for (int i = 0; i < 9; i++) {
-            if (seq % 10 == 0) {
-                return 8 - i;
-            }
-            seq = seq / 10;
-        }
-
-        return -1;
+        return this.sequence.indexOf('0');
     }
 
 
     private State getNewState(int bias) {
         int idx = this.zeroIndex + bias;
-        int [] numbers = Util.getArrSequence(this.sequence);
-        int[] newStateArr = swap(numbers, this.zeroIndex, idx);
 
-        int newSequence = newStateArr[0];
-        for (int i = 1; i < newStateArr.length ; i++) {
-            newSequence = newSequence*10;
-            newSequence = newSequence + newStateArr[i];
-        }
+        String newSequence = swap(this.sequence, this.zeroIndex, idx);
 
         float newCost = this.costFunction.calculateCost(this.cost, newSequence);
         return new State(newSequence, newCost, this, this.costFunction);
@@ -147,13 +134,13 @@ public class State {
         return getNewState(1);
     }
 
-    private int[] swap(int[] arr, int a, int b) {
-        int[] newArr = arr.clone();
-        int temp = newArr[a];
+    private String swap(String s, int a, int b) {
+        char[] newArr = s.toCharArray();
+        char temp = newArr[a];
         newArr[a] = newArr[b];
         newArr[b] = temp;
 
-        return newArr;
+        return String.valueOf(newArr);
     }
 
 }
