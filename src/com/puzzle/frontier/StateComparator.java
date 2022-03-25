@@ -10,6 +10,6 @@ public class StateComparator implements Comparator<State> {
 
     @Override
     public int compare(State first, State second) {
-        return Math.round(first.getCost() - second.getCost());
+        return Math.round(first.getCostIncludingHeuristic() - second.getCostIncludingHeuristic());
     }
 }

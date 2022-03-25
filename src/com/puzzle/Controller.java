@@ -63,15 +63,13 @@ public class Controller {
 
                    setOuts(algo, cost, time);
                    traceback = resultTraceback;
-
-                   traceback.remove(0);
                }else {
                    System.out.println("Unsolvable.");
                    setOutsNoSol(algo, time);
                    JOptionPane.showMessageDialog(null, "Unable To Solve!");
                }
 
-               System.out.println("Finished in "+time+" Seconds");
+               System.out.println("Finished in "+time+" ms.");
                System.out.println("Search Depth = "+algo.searchDepth);
                System.out.println("Nodes expanded = "+algo.expandedNodesCount);
 
@@ -80,13 +78,13 @@ public class Controller {
                        @Override
                        public void actionPerformed(ActionEvent e) {
                            if (!traceback.isEmpty()) {
-                               setSeq(traceback.get(0));
-                               traceback.remove(0);
+                               setSeq(traceback.get(traceback.size() - 1));
+                               traceback.remove(traceback.size() - 1);
                            }
                        }
                    });
                }else if (! traceback.isEmpty())
-                   setSeq(traceback.get(traceback.size() - 1));
+                   setSeq(traceback.get(0));
 
 
            }
@@ -97,7 +95,7 @@ public class Controller {
    }
    public static void setOuts(SearchAlgorithm<State> algo, float cost, long time){
 
-       view.getTime().setText(String.valueOf(time)+" Seconds");
+       view.getTime().setText(String.valueOf(time)+" ms");
        view.getCost().setText(String.valueOf(cost));
        view.getDepth().setText(String.valueOf(algo.searchDepth));
        view.getNodesExp().setText(String.valueOf(algo.expandedNodesCount));
@@ -105,7 +103,7 @@ public class Controller {
    }
    public static void setOutsNoSol(SearchAlgorithm<State> algo, long time){
 
-       view.getTime().setText(String.valueOf(time)+" Seconds");
+       view.getTime().setText(String.valueOf(time)+" ms");
        view.getDepth().setText(String.valueOf(algo.searchDepth));
        view.getNodesExp().setText(String.valueOf(algo.expandedNodesCount));
 

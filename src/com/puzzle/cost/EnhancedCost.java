@@ -41,7 +41,7 @@ public class EnhancedCost implements CostFunction {
    public float calculateManhattanDistance(String sequence) {
        int heuristic = 0;
        for (int i = 0; i < sequence.length(); i++) {
-           int goalIndex = sequence.charAt(i) - '0';
+           int goalIndex = sequence.charAt(i) - '0'; 
            if(goalIndex == 0)
                continue;
            int goalRow = getRowIndex(goalIndex);
@@ -58,13 +58,15 @@ public class EnhancedCost implements CostFunction {
 
     @Override
     public float calculateCost(float parentCost, String sequence) {
-        return parentCost + calculateHeuristic(sequence) +  1;
+        return parentCost +  1;
     }
 
-
-    private float calculateHeuristic(String sequence)
+    @Override
+    public float calculateCostWithHeuristic(String sequence, float parentCost)
     {
-        return costType == CostType.EUCLIDEAN ?  getEuclideanDistance(sequence) : calculateManhattanDistance(sequence);
+        float heuristicCost = costType == CostType.EUCLIDEAN ? getEuclideanDistance(sequence)
+                : calculateManhattanDistance(sequence);
+        return heuristicCost + parentCost + 1;
     }
 
 

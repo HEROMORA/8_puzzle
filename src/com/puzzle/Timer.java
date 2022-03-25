@@ -12,7 +12,7 @@ public class Timer {
     }
     public static long tock()
     {
-        duration = Duration.between(start,LocalTime.now()).getSeconds();
+        duration = Duration.between(start,LocalTime.now()).toMillis();
 
         return duration;
     }

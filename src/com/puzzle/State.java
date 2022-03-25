@@ -1,6 +1,7 @@
 package com.puzzle;
 
 import com.puzzle.cost.CostFunction;
+import com.puzzle.cost.CostType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,22 +15,25 @@ public class State {
     private final String sequence;
     private final float cost;
     private final int zeroIndex;
+    private final float costIncludingHeuristic;
     public final CostFunction costFunction;
 
     public State(String sequence, CostFunction costFunction) {
         this.sequence = sequence;
         this.cost = 0;
+        this.costIncludingHeuristic = 0;
         this.zeroIndex = getZeroIndex();
         this.costFunction = costFunction;
         this.parent = this;
     }
 
-    public State(String sequence, float cost, State parent, CostFunction costFunction) {
+    public State(String sequence, float cost, State parent, CostFunction costFunction, float costIncludingHeuristic) {
         this.sequence = sequence;
         this.zeroIndex = getZeroIndex();
         this.cost = cost;
         this.parent = parent;
         this.costFunction = costFunction;
+        this.costIncludingHeuristic = costIncludingHeuristic;
     }
 
 
@@ -63,7 +67,7 @@ public class State {
     {
         ArrayList<String> arr = new ArrayList<>();
         State current = this;
-        while (current.getParent() != null) {
+        while (!current.getParent().getSequence().equals(current.getSequence())) {
             arr.add(current.getSequence());
             current = current.getParent();
         }
@@ -85,6 +89,10 @@ public class State {
 
     public float getCost() {
         return cost;
+    }
+
+    public float getCostIncludingHeuristic() {
+        return costIncludingHeuristic;
     }
 
     private boolean canMoveUp() {
@@ -114,7 +122,8 @@ public class State {
         String newSequence = swap(this.sequence, this.zeroIndex, idx);
 
         float newCost = this.costFunction.calculateCost(this.cost, newSequence);
-        return new State(newSequence, newCost, this, this.costFunction);
+        float newCostIncludingHeuristic = this.costFunction.calculateCostWithHeuristic(newSequence, this.cost);
+        return new State(newSequence, newCost, this, this.costFunction, newCostIncludingHeuristic);
     }
 
 
