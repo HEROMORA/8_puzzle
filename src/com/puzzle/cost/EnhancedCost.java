@@ -20,36 +20,40 @@ public class EnhancedCost implements CostFunction {
         return val % 3;
     }
 
-//    public float getEuclideanDistance(String sequence) {
-//
-//        float heuristic = 0;
-//        for (int i = 0; i < sequence.length; i++) {
-//            int goalIndex = sequence[i];
-//            int goalRow = getRowIndex(goalIndex);
-//            int goalCol = getColIndex(goalIndex);
-//            int row = getRowIndex(i);
-//            int col = getColIndex(i);
-//
-//            heuristic += (float) Math.sqrt(Math.pow(row - goalRow, 2) + Math.pow(col - goalCol, 2));
-//        }
-//
-//        return heuristic;
-//    }
-//
-//    public float calculateManhattanDistance(String sequence) {
-//        int heuristic = 0;
-//        for (int i = 0; i < sequence.length; i++) {
-//            int goalIndex = sequence[i];
-//            int goalRow = getRowIndex(goalIndex);
-//            int goalCol = getColIndex(goalIndex);
-//            int row = getRowIndex(i);
-//            int col = getColIndex(i);
-//
-//            heuristic += Math.abs(row - goalRow) + Math.abs(col - goalCol);
-//        }
-//
-//        return heuristic;
-//    }
+   public float getEuclideanDistance(String sequence) {
+
+       float heuristic = 0;
+       for (int i = 0; i < sequence.length(); i++) {
+           int goalIndex = sequence.charAt(i) - '0';
+           if(goalIndex == 0)
+               continue;
+           int goalRow = getRowIndex(goalIndex);
+           int goalCol = getColIndex(goalIndex);
+           int row = getRowIndex(i);
+           int col = getColIndex(i);
+
+           heuristic += (float) Math.sqrt(Math.pow(row - goalRow, 2) + Math.pow(col - goalCol, 2));
+       }
+
+       return heuristic;
+   }
+
+   public float calculateManhattanDistance(String sequence) {
+       int heuristic = 0;
+       for (int i = 0; i < sequence.length(); i++) {
+           int goalIndex = sequence.charAt(i) - '0';
+           if(goalIndex == 0)
+               continue;
+           int goalRow = getRowIndex(goalIndex);
+           int goalCol = getColIndex(goalIndex);
+           int row = getRowIndex(i);
+           int col = getColIndex(i);
+
+           heuristic += Math.abs(row - goalRow) + Math.abs(col - goalCol);
+       }
+
+       return heuristic;
+   }
 
 
     @Override
@@ -60,8 +64,7 @@ public class EnhancedCost implements CostFunction {
 
     private float calculateHeuristic(String sequence)
     {
-        return 0;
-//        return costType == CostType.EUCLIDEAN ?  getEuclideanDistance(sequence) : calculateManhattanDistance(sequence);
+        return costType == CostType.EUCLIDEAN ?  getEuclideanDistance(sequence) : calculateManhattanDistance(sequence);
     }
 
 
