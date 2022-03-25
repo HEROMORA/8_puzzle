@@ -1,8 +1,12 @@
 package com.puzzle.cost;
 
-import java.util.List;
+import com.puzzle.State;
+import com.puzzle.Util;
 
 public class EnhancedCost implements CostFunction {
+
+    CostType costType;
+
     private int getRowIndex(int val) {
         return val/3;
     }
@@ -12,6 +16,7 @@ public class EnhancedCost implements CostFunction {
     }
 
     public float getEuclideanDistance(int[] sequence) {
+
         //TODO
         float heuristic = 0;
         for (int i = 0; i < sequence.length; i++) {
@@ -23,10 +28,11 @@ public class EnhancedCost implements CostFunction {
 
             heuristic += (float) Math.sqrt(Math.pow(row - goalRow, 2) + Math.pow(col - goalCol, 2));
         }
+        //System.out.println("H = "+heuristic);
         return heuristic;
     }
 
-    public int calculateManhattanDistance(int [] sequence) {
+    public float calculateManhattanDistance(int [] sequence) {
         //TODO
         int heuristic = 0;
         for (int i = 0; i < sequence.length; i++) {
@@ -38,12 +44,32 @@ public class EnhancedCost implements CostFunction {
 
             heuristic += Math.abs(row - goalRow) + Math.abs(col - goalCol);
         }
+        //System.out.println("H = "+heuristic);
+
         return heuristic;
     }
 
 
     @Override
     public int calculateCost(int parentCost, int sequence) {
-        return 0;
+        return parentCost + 1;
+    }
+
+    @Override
+    public float calculateH(int sequence)
+    {
+        int []seq = Util.getArrSequence(sequence);
+        return (costType == CostType.EUCLIDEAN)? (getEuclideanDistance(seq)):(float)calculateManhattanDistance(seq);
+    }
+
+    @Override
+    public float calculateF(int parentCost, int sequence)
+    {
+        return (float)calculateCost(parentCost,sequence) + calculateH(sequence);
+    }
+
+    public EnhancedCost(CostType type)
+    {
+        this.costType = type;
     }
 }

@@ -6,20 +6,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.System.exit;
+
 public class State {
     private static final int optimal = 12345678;
 
+    public void setParent(State parent) {
+        this.parent = parent;
+    }
+
+    public void updateCost() {
+        this.cost = costFunction.calculateCost(parent.getCost(), sequence);
+    }
+
     private State parent;
     private final int sequence;
-    private final int cost;
+    private int cost;
     private final int zeroIndex;
-    private final CostFunction costFunction;
+    public final CostFunction costFunction;
 
     public State(int sequence, CostFunction costFunction) {
         this.sequence = sequence;
         this.cost = 0;
         this.zeroIndex = getZeroIndex();
         this.costFunction = costFunction;
+        this.parent = this;
     }
 
     public State(int sequence, int cost, State parent, CostFunction costFunction) {
@@ -71,7 +82,14 @@ public class State {
     public int getCost() {
         return cost;
     }
-
+    public float getH()
+    {
+        return costFunction.calculateH(sequence);
+    }
+    public float getF()
+    {
+        return costFunction.calculateF(parent.getCost(), sequence);
+    }
     private boolean canMoveUp() {
         return zeroIndex > 2;
     }
@@ -90,9 +108,10 @@ public class State {
 
     private int getZeroIndex() {
         int seq = this.sequence;
+        if (seq < 100000000) return 8;
         for (int i = 0; i < 9; i++) {
             if (seq%10 == 0) {
-                return i;
+                return 8 - i;
             }
             seq = seq/10;
         }
@@ -103,16 +122,7 @@ public class State {
 
     private State getNewState(int bias) {
         int idx = this.zeroIndex + bias;
-        String seq = String.valueOf(this.sequence);
-        int[] numbers = new int[seq.length()];
-        if(seq.length() < 9) {
-            numbers[0] = 0;
-        } else {
-            numbers[0] = seq.charAt(0) - '0';
-        }
-        for (int i = 1; i < seq.length(); i++) {
-            numbers[i] = seq.charAt(i) - '0';
-        }
+        int [] numbers = Util.getArrSequence(this.sequence);
         int[] newStateArr = swap(numbers, this.zeroIndex, idx);
 
         int newSequence = newStateArr[0];
@@ -147,6 +157,20 @@ public class State {
         int temp = newArr[a];
         newArr[a] = newArr[b];
         newArr[b] = temp;
+
         return newArr;
+    }
+
+    public ArrayList<Integer> traceback()
+    {
+        //TODO
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        State current = this;
+        if(!this.parent.isSameState(this))
+        {
+            arr.addAll(this.parent.traceback());
+            arr.add(this.getSequence());
+        }else{arr.add(this.getSequence());}
+        return arr;
     }
 }

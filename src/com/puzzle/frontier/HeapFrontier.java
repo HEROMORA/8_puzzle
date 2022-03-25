@@ -10,7 +10,7 @@ public class HeapFrontier implements Frontier<State> {
     private final PriorityQueue<State> heap;
 
     public HeapFrontier(State initialState) {
-        heap = new PriorityQueue<>();
+        heap = new PriorityQueue<>(100,new StateComparator());
         heap.add(initialState);
     }
 
@@ -48,7 +48,23 @@ public class HeapFrontier implements Frontier<State> {
         return heap.isEmpty();
     }
 
-    public void decreaseKey(State state) {
+    public void decreaseKey(State parent,State state) {
         // TODO: decrease key
+        Iterator<State> it = heap.iterator();
+        State inHeap;
+        while (it.hasNext())
+        {
+            inHeap = it.next();
+            if (inHeap.isSameState(state))
+            {
+
+                if (inHeap.getF() > state.getF())
+                {
+                    it.remove();
+                    heap.add(state);
+                }
+                break;
+            }
+        }
     }
 }

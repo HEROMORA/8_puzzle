@@ -8,9 +8,11 @@ import java.util.HashSet;
 import java.util.List;
 
 public abstract class SearchAlgorithm<T> {
-    private final HashSet<State> explored;
+    private final HashSet<Integer> explored;
     private final Frontier<State> frontier;
-
+    public State sol;
+    public int expandedNodesCount = 0;
+    public int searchDepth = 0;
     public SearchAlgorithm(Frontier<State> frontier) {
         this.frontier = frontier;
         this.explored = new HashSet<>();
@@ -25,18 +27,19 @@ public abstract class SearchAlgorithm<T> {
     }
 
     public void setExplored(State obj) {
-        explored.add(obj);
+        explored.add(obj.getSequence());
     }
 
     public boolean isNotExplored(State obj) {
 
-        for(State state: explored){
-            if(state.isSameState(obj)){
+        /*for(int state: explored){
+            if(state == obj.getSequence()){
                 return false;
             }
-        }
-        return true;
-//        return !explored.contains(obj);
+        }*/
+
+        //return true;
+        return !explored.contains(obj.getSequence());
     }
 
     public boolean isInFrontier(State obj) {
@@ -47,26 +50,28 @@ public abstract class SearchAlgorithm<T> {
         return frontier;
     }
 
-    public abstract void updateFrontier(State child);
+    public abstract void updateFrontier(State parent,State child);
 
     public int search() {
 
         while (!frontier.isEmpty()) {
 
             State currentState = frontier.extract();
-            System.out.println("Current state: " + currentState.getSequence());
-            explored.add(currentState);
-
+            //System.out.println("Current state: " + currentState.getSequence());
+            explored.add(currentState.getSequence());
+            expandedNodesCount++;
+            if (searchDepth < currentState.getCost()) searchDepth = currentState.getCost();
             if (currentState.isGoal()) {
-                System.out.println(currentState.getSequence());
-                return 999;
+                //System.out.println(currentState.getSequence());
+                sol = currentState;
+                return currentState.getSequence();
             }
 
             List<State> children = currentState.getPossibleChildren();
 
             for (State child: children) {
 //                System.out.println(Arrays.toString(child.getSequence()));
-                updateFrontier(child);
+                if(isNotExplored(child)) updateFrontier(currentState,child);
             }
 
         }
