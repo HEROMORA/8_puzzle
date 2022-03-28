@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Controller {
    static MainView view;
@@ -58,8 +59,12 @@ public class Controller {
 
                    System.out.println("Cost = "+ cost);
 
-                   if(cost < 1000)
-                       System.out.println(resultTraceback);
+                   if (cost < 1000) {
+                       ArrayList<String> reverseTraceback = (ArrayList<String>) resultTraceback.clone();
+                       Collections.reverse(reverseTraceback);
+
+                       System.out.println(reverseTraceback);
+                   }
 
                    setOuts(algo, cost, time);
                    traceback = resultTraceback;
